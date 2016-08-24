@@ -1,0 +1,12 @@
+plugins:
+  storage:
+    name: deepstream.io-storage-mariadb
+    options:
+      ds_host: 'localhost'
+      ds_user: 'john'
+      ds_password: '123'
+      ds_databaseName: 'deepstream'
+      ds_tableName: 'deepstream_storage'
+      ds_keyType: 'text'
+      ds_valueType: 'text'
+      ds_splitter: '/'
