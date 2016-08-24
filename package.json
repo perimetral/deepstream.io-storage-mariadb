@@ -1,6 +1,6 @@
 {
   "name": "deepstream.io-storage-mariadb",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "MariaDB MySQL connector for using as storage connector with deepstream.io",
   "main": "src/connector.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "url": "https://github.com/perimetral/deepstream.io-storage-mariadb"
   },
   "author": "perimetral",
-  "license": "BSD-4-Clause",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/perimetral/deepstream.io-storage-mariadb/issues"
   },
