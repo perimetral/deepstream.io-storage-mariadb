@@ -8,6 +8,51 @@ const defaults = require('../defaults.js');
 const sql = require('mariasql');
 const uuid = require('node-uuid');
 
+const dbGenerator = (options, self) => {
+	let db = new sql(options.mariasql);
+	db.on('ready', () => {
+		self._dbName = options.mariasql.db;
+		self._table = options.table;
+		self._splitter = options.splitter;
+		self._tableList = [];
+		db.query('create database if not exists ' + options.mariasql.db, (e, rows) => {
+			if (e) return self.emit('error', e);
+			db.query('use ' + options.mariasql.db, (e2, rows2) => {
+				if (e2) return self.emit('error', e2);
+				db.query(
+					('create table if not exists ' + options.table.name +
+					' (pk bigint auto_increment primary key, ds_key ' + options.table.keyType +
+					', ds_value ' + options.table.valueType +
+					', key ds_key (ds_key(32))) engine=InnoDB default charset utf8;'),
+					(e3, rows3) => {
+						if (e3) return self.emit('error', e3);
+						db.query('show tables', (e4, rows4) => {
+							if (e4) return self.emit('error', e4);
+							rows4.forEach((x, i, ar) => {
+								self._tableList.push(x.Tables_in_deepstream);
+							});
+						});
+					}
+				);
+				self.isReady = true;
+				self.emit('ready');
+			});
+		});
+	});
+	db.on('error', (e) => {
+		if (e.message.includes(`Unknown database \'${self._dbName}\'`)) {
+			let cleanOptions = Object.assign({}, options);
+			cleanOptions.mariasql = Object.assign({}, options.mariasql);
+			cleanOptions.table = Object.assign({}, options.table);
+			delete cleanOptions.mariasql.db;
+			db = dbGenerator(cleanOptions, self);
+		} else self.emit('error', e);
+	});
+	db.end();
+	db.connect();
+	return db;
+};
+
 class Connector extends events.EventEmitter {
 	constructor (options) {
 		if (! (typeof options === 'object')) throw new TypeError('Incorrect connection options passed');
@@ -16,6 +61,8 @@ class Connector extends events.EventEmitter {
 		this.name = pckg.name;
 		this.version = pckg.version;
 		options = Object.assign({}, defaults, options);
+		options.mariasql = Object.assign({}, defaults.mariasql, options.mariasql);
+		options.table = Object.assign({}, defaults.table, options.table);
 		if (process.env.ds_host) options.mariasql.host = process.env.ds_host;
 		if (process.env.ds_user) options.mariasql.user = process.env.ds_user;
 		if (process.env.ds_password) options.mariasql.password = process.env.ds_password;
@@ -24,34 +71,7 @@ class Connector extends events.EventEmitter {
 		if (process.env.ds_keyType) options.table.keyType = process.env.ds_keyType;
 		if (process.env.ds_valueType) options.table.valueType = process.env.ds_valueType;
 		if (process.env.ds_splitter) options.splitter = process.env.ds_splitter;
-		this._db = new sql(options.mariasql);
-		this._db.on('ready', () => {
-			this._table = options.table;
-			this._splitter = options.splitter;
-			this._tableList = [];
-			this._db.query(
-				('create table if not exists ' + options.table.name +
-				' (pk bigint auto_increment primary key, ds_key ' + options.table.keyType +
-				', ds_value ' + options.table.valueType +
-				', key ds_key (ds_key(32))) engine=InnoDB default charset utf8;'),
-				(e, rows) => {
-					if (e) return this.emit('error', e);
-					this._db.query('show tables', (e2, rows2) => {
-						if (e2) return this.emit('error', e2);
-						rows2.forEach((x, i, ar) => {
-							this._tableList.push(x.Tables_in_deepstream);
-						});
-					});
-				}
-			);
-			this.isReady = true;
-			this.emit('ready');
-		});
-		this._db.on('error', (e) => {
-			this.emit('error', e);
-		});
-		this._db.end();
-		this._db.connect();
+		this._db = dbGenerator(options, this);
 	}
 
 	_upsert (tableName, key, value) {
