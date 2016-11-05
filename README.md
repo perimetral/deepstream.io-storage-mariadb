@@ -2,6 +2,14 @@
 
 [deepstream](http://deepstream.io) storage connector for [mariadb](https://mariadb.org/)
 
+**What is MariaDB?**
+
+MariaDB is database server which is used as drop-in replacement of MySQL. SQL syntax with JSON and GIS additions is accepted as data manipalting format. Scalable and fast solution which uses some NoSQL parts at low-level providing this way classic SQL which is fast like NoSQL like MongoDB. It supports many types of storage engines (all are listed [there](https://mariadb.com/kb/en/mariadb/storage-engines/)) and is pluggable and scalable from microsystems like Raspberry to big data centers.
+
+**Why use MariaDB with Deepstream?**
+
+
+
 This connector uses [the npm mariasql package](https://www.npmjs.com/package/mariasql). Please have a look there for detailed options.
 
 `splitter` option is splitter which may be used to determine dynamic table name as part of key in format `[table<splitter>]key`
