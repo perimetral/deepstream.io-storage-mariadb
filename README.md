@@ -8,19 +8,38 @@ MariaDB is database server which is used as drop-in replacement of MySQL. SQL sy
 
 **Why use MariaDB with Deepstream?**
 
+MariaDB is one of supported connectors for Deepstream which is used for data recordong. It is modified to get SQL-based relational storage working with Deepstream data structure which is JSON blobs identified by key. MariaDB is focused on performance of low-level NoSQL mechanisms and stability of classic SQL syntax based data operations.
 
+**Downsides?**
 
-This connector uses [the npm mariasql package](https://www.npmjs.com/package/mariasql). Please have a look there for detailed options.
+MariaDB is based on top of classic SQL so you need properly working SQL-server to get this connector running. Also there is no SSL-certs authentication yet supported for accessing SQL-server so you must use classic login/password credentials. Also MariaDB doesn't support realtime data streams manipulating.
 
-`splitter` option is splitter which may be used to determine dynamic table name as part of key in format `[table<splitter>]key`
+**Using MariaDB with Deepstream**
 
-Table options are:
+Deepstream can connect to MariaDB using the "MariaDB storage connector", a plugin that connects to the database and automatically syncs incoming and outgoing record updates.
 
-* `tableName` (also `table.name` in options passed to constructor) is default table name if not specified as key part
-* `keyType` (`table.keyType`) is MariaDB-compatible data type for key
-* `valueType` (`table.valueType`) is MariaDB-compatible data type for key
+**Installing the MariaDB storage connector**
 
-##Basic Setup
+You can install the MariaDB connector via deepstream's commandline interface, using:
+
+`deepstream install storage mariadb`
+
+or in Windows:
+
+`deepstream.exe install storage mariadb`
+
+resulting in deepstream MariaDB connector install command line output.
+
+If you're using deepstream's Node.js interface, you can also install it as an NPM module:
+
+`npm i perimetral/deepstream.io-storage-mariadb`
+
+**Configuring the MariaDB storage connector**
+
+You can configure the storage connector plugin in deepstream with the following options considering there are additional ones which are must be set at SQL-serverside (look [here](https://www.npmjs.com/package/mariasql) for details):
+
+You may use Deepstream YAML config file with such formatting:
+
 ```yaml
 plugins:
   storage:
@@ -35,13 +54,32 @@ plugins:
       ds_valueType: 'text'
       ds_splitter: '/'
 ```
+Where:
+
+* `ds_host`, `ds_user`, `ds_password`: credentials for connecting to compatible SQL-server
+* `ds_databaseName`, `ds_tableName`: data preferences (if such database or table are missing new one is created with specified name)
+* `ds_keyType`, `ds_valueType`: data types for data recording (all of input will be converted to this types)
+* `ds_splitter`: string which determines symbols to split category and exactly key in `key` argument passed for data manipulating
+
+**Usage example**
+
+Here is simple example of connecting and using of MariaDB connector:
 
 ```javascript
-var Deepstream = require( 'deepstream.io' ),
-    MariaDBStorageConnector = require( 'deepstream.io-storage-mariadb' ),
-    server = new Deepstream();
+let ds = require('deepstream.io');
+let connector = require('deepstream.io-storage-mariadb');
+let server = new Deepstream();
 
-server.set( 'storage', new MariaDBStorageConnector( {
+//  AFTER THIS YOU ARE ABLE TO PERFORM ALL OF CLASSIC DEEPSTREAM DATA MANIPULATIONS
+//  AND ALL OF THEM WILL BE PROCESSED BY MARIADB CONNECTOR
+```
+
+**Configuring from Javascript**
+
+If you installed connector as NPM plugin, you may reconfigure it right in runtime like here:
+
+```javascript
+server.set('storage', new connector({
   mariasql: {
     host: 'localhost',
     user: 'john',
@@ -55,6 +93,6 @@ server.set( 'storage', new MariaDBStorageConnector( {
   },
   splitter: '/',
 }));
-
-server.start();
 ```
+
+Do not forget to run `server.start()` after connecting and configuring connector.
