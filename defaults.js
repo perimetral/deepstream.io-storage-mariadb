@@ -1,6 +1,6 @@
 module.exports = {
 	mariasql: {
-		host: 'localhost',
+		host: 'atata',
 		user: 'themtrx',
 		password: 'qwerty123456',
 		db: 'deepstream',

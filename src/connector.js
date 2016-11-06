@@ -71,6 +71,7 @@ class Connector extends events.EventEmitter {
 		if (process.env.ds_keyType) options.table.keyType = process.env.ds_keyType;
 		if (process.env.ds_valueType) options.table.valueType = process.env.ds_valueType;
 		if (process.env.ds_splitter) options.splitter = process.env.ds_splitter;
+		this.options = Object.assign({}, options);
 		this._db = dbGenerator(options, this);
 	}
 
@@ -97,7 +98,7 @@ class Connector extends events.EventEmitter {
 		} catch (e) {
 			return callback(e);
 		};
-		let tableName = (splitted.length > 1) ? splitted[0] : this._table.name;
+		let tableName = (splitted.length > 1) ? splitted[0] : this.options.table.name;
 		if (this._tableList.includes(tableName)) {
 			this._upsert(tableName, key, value).then(() => {
 				return callback(null);
