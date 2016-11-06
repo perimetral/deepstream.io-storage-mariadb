@@ -11,10 +11,7 @@ const uuid = require('node-uuid');
 const dbGenerator = (options, self) => {
 	let db = new sql(options.mariasql);
 	db.on('ready', () => {
-		self._dbName = options.mariasql.db;
-		self._table = options.table;
-		self._splitter = options.splitter;
-		self._tableList = [];
+		console.log('atata');
 		db.query('create database if not exists ' + options.mariasql.db, (e, rows) => {
 			if (e) return self.emit('error', e);
 			db.query('use ' + options.mariasql.db, (e2, rows2) => {
@@ -55,8 +52,8 @@ const dbGenerator = (options, self) => {
 
 class Connector extends events.EventEmitter {
 	constructor (options) {
-		if (! (typeof options === 'object')) throw new TypeError('Incorrect connection options passed');
 		super();
+		if (! (typeof options === 'object')) throw new TypeError('Incorrect connection options passed');
 		this.isReady = false;
 		this.name = pckg.name;
 		this.version = pckg.version;
@@ -72,6 +69,10 @@ class Connector extends events.EventEmitter {
 		if (process.env.ds_valueType) options.table.valueType = process.env.ds_valueType;
 		if (process.env.ds_splitter) options.splitter = process.env.ds_splitter;
 		this.options = Object.assign({}, options);
+		this._dbName = options.mariasql.db;
+		this._table = options.table;
+		this._splitter = options.splitter;
+		this._tableList = [];
 		this._db = dbGenerator(options, this);
 	}
 
