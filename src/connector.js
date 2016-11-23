@@ -6,7 +6,7 @@ const pckg = require('../package.json');
 const defaults = require('../defaults.js');
 
 const sql = require('mariasql');
-const uuid = require('node-uuid');
+const uuid = require('uuid');
 
 const dbGenerator = (options, self) => {
 	let db = new sql(options.mariasql);
