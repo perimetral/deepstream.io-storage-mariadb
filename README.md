@@ -8,7 +8,7 @@ MariaDB is database server which is used as drop-in replacement of MySQL. SQL sy
 
 **Why use MariaDB with Deepstream?**
 
-MariaDB is one of supported connectors for Deepstream which is used for data recordong. It is modified to get SQL-based relational storage working with Deepstream data structure which is JSON blobs identified by key. MariaDB is focused on performance of low-level NoSQL mechanisms and stability of classic SQL syntax based data operations.
+MariaDB is one of supported connectors for Deepstream which is used for data recording. It is modified to get SQL-based relational storage working with Deepstream data structure which is JSON blobs identified by key. MariaDB is focused on performance of low-level NoSQL mechanisms and stability of classic SQL syntax based data operations.
 
 **Downsides?**
 
