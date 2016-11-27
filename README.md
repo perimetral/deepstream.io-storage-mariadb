@@ -4,7 +4,7 @@
 
 **What is MariaDB?**
 
-MariaDB is database server which is used as drop-in replacement of MySQL. SQL syntax with JSON and GIS additions is accepted as data manipalting format. Scalable and fast solution which uses some NoSQL parts at low-level providing this way classic SQL which is fast like NoSQL like MongoDB. It supports many types of storage engines (all are listed [there](https://mariadb.com/kb/en/mariadb/storage-engines/)) and is pluggable and scalable from microsystems like Raspberry to big data centers.
+MariaDB is database server which is used as drop-in replacement of MySQL. SQL syntax with JSON and GIS additions is accepted as data manipulating format. Scalable and fast solution which uses some NoSQL parts at low-level providing this way classic SQL which is fast like NoSQL like MongoDB. It supports many types of storage engines (all are listed [there](https://mariadb.com/kb/en/mariadb/storage-engines/)) and is pluggable and scalable from microsystems like Raspberry to big data centers.
 
 **Why use MariaDB with Deepstream?**
 
