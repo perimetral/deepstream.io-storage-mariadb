@@ -4,7 +4,7 @@ plugins:
     options:
       ds_host: 'localhost'
       ds_user: 'john'
-      ds_password: '123'
+      ds_password: '1234'
       ds_databaseName: 'deepstream'
       ds_tableName: 'deepstream_storage'
       ds_keyType: 'text'
