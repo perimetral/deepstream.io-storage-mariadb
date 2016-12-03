@@ -2,7 +2,7 @@ env:
   global:
     - CXX=g++-4.8
     - ds_host=localhost
-    - ds_user=root
+    - ds_user=travis
     - ds_password=
     - ds_databaseName=deepstream
     - ds_tableName=deepstream_storage
@@ -21,7 +21,6 @@ addons:
     - g++-4.8
 
 node_js:
-  - "6"
   - "6.1"
 
 matrix:
