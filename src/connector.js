@@ -6,12 +6,12 @@ const pckg = require('../package.json');
 const defaults = require('../defaults.js');
 
 const sql = require('mariasql');
-const uuid = require('uuid');
 
 const dbGenerator = (options, self) => {
-	let db = new sql(options.mariasql);
+	let dbOptions = Object.assign({}, options.mariasql);
+	delete dbOptions.db;
+	let db = new sql(dbOptions);
 	db.on('ready', () => {
-		console.log('atata');
 		db.query('create database if not exists ' + options.mariasql.db, (e, rows) => {
 			if (e) return self.emit('error', e);
 			db.query('use ' + options.mariasql.db, (e2, rows2) => {
