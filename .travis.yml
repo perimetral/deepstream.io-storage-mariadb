@@ -30,9 +30,9 @@ script:
   - ./package.sh
 
 before_install:
-  - mysql -e 'CREATE USER "ds"@"localhost" IDENTIFIED BY "ds";'
-  - mysql -e 'GRANT ALL PRIVILEGES ON *.* TO "ds"@"localhost";'
-  - mysql -e 'FLUSH PRIVILEGES;'
+  - mysql -u root -e 'CREATE USER "ds"@"localhost" IDENTIFIED BY "ds";'
+  - mysql -u root -e 'GRANT ALL PRIVILEGES ON *.* TO "ds"@"localhost";'
+  - mysql -u root -e 'FLUSH PRIVILEGES;'
 
 deploy:
   - provider: s3
