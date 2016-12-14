@@ -69,6 +69,7 @@ Here is simple example of connecting and using of MariaDB connector:
 let ds = require('deepstream.io');
 let connector = require('deepstream.io-storage-mariadb');
 let server = new ds();
+server.set('storage', new connector({}));
 
 //  AFTER THIS YOU ARE ABLE TO PERFORM ALL OF CLASSIC DEEPSTREAM DATA MANIPULATIONS
 //  AND ALL OF THEM WILL BE PROCESSED BY MARIADB CONNECTOR
