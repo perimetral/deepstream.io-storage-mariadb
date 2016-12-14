@@ -1,4 +1,4 @@
-# deepstream.io-storage-mariadb [![npm version](https://badge.fury.io/js/deepstream.io-storage-mariadb.svg)](https://badge.fury.io/js/deepstream.io-storage-mariadb)
+# deepstream.io-storage-mariadb [![npm version](https://badge.fury.io/js/deepstream.io-storage-mariadb.svg)](https://badge.fury.io/js/deepstream.io-storage-mariadb) [![Build Status](https://travis-ci.org/perimetral/deepstream.io-storage-mariadb.svg?branch=master)](https://travis-ci.org/perimetral/deepstream.io-storage-mariadb)
 
 [deepstream](http://deepstream.io) storage connector for [mariadb](https://mariadb.org/)
 
