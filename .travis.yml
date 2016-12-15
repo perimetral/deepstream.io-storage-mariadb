@@ -24,7 +24,7 @@ node_js:
   - "6.9"
   - "7"
 
-before_install:
+install:
   - mysql -u root -e 'CREATE USER "ds"@"localhost" IDENTIFIED BY "ds";'
   - mysql -u root -e 'GRANT ALL PRIVILEGES ON *.* TO "ds"@"localhost";'
   - mysql -u root -e 'FLUSH PRIVILEGES;'
