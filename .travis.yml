@@ -20,7 +20,13 @@ addons:
     packages:
     - g++-4.8
 
+matrix:
+  include:
+    - node_js: "6.9"
+      os: osx
+
 node_js:
+  - "6.9"
   - "7"
 
 script:
