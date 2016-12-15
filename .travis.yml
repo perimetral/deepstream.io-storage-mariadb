@@ -20,11 +20,7 @@ addons:
     packages:
     - g++-4.8
 
-node_js:
-  - "6.9"
-  - "7"
-
-install:
+before_install:
   - mysql -u root -e 'CREATE USER "ds"@"localhost" IDENTIFIED BY "ds";'
   - mysql -u root -e 'GRANT ALL PRIVILEGES ON *.* TO "ds"@"localhost";'
   - mysql -u root -e 'FLUSH PRIVILEGES;'
@@ -64,3 +60,7 @@ after_deploy:
 
 after_script:
   - "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+
+node_js:
+  - "6.9"
+  - "7"
