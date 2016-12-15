@@ -24,10 +24,7 @@ matrix:
   include:
     - node_js: "6.9"
       os: osx
-
-node_js:
-  - "6.9"
-  - "7"
+    - node_js: "7"
 
 script:
   - npm run test
