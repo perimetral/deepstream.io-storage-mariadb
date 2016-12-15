@@ -1,6 +1,6 @@
 {
   "name": "deepstream.io-storage-mariadb",
-  "version": "1.0.6b",
+  "version": "1.0.7",
   "description": "MariaDB MySQL connector for using as storage connector with deepstream.io",
   "main": "src/connector.js",
   "scripts": {
