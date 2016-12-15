@@ -25,17 +25,18 @@ matrix:
     - node_js: "6.9"
       os: osx
     - node_js: "7"
+      os: osx
+
+before_script:
+  - mysql -u root -e 'CREATE USER "ds"@"localhost" IDENTIFIED BY "ds";'
+  - mysql -u root -e 'GRANT ALL PRIVILEGES ON *.* TO "ds"@"localhost";'
+  - mysql -u root -e 'FLUSH PRIVILEGES;'
 
 script:
   - npm run test
   - curl -o package.sh -L https://raw.githubusercontent.com/deepstreamIO/deepstream.io-connector-publishingtest/master/scripts/package.sh
   - chmod 555 package.sh
   - ./package.sh
-
-before_install:
-  - mysql -u root -e 'CREATE USER "ds"@"localhost" IDENTIFIED BY "ds";'
-  - mysql -u root -e 'GRANT ALL PRIVILEGES ON *.* TO "ds"@"localhost";'
-  - mysql -u root -e 'FLUSH PRIVILEGES;'
 
 deploy:
   - provider: s3
